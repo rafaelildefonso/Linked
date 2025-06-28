@@ -1,0 +1,34 @@
+import { colors } from "@/styles/colors";
+import { Link, Stack } from "expo-router";
+import { StyleSheet, View, Text } from "react-native";
+
+export default function NotFoundScreen() {
+  return (
+    <>
+      <Stack.Screen options={{ title: "Oops!" }} />
+      <View style={styles.container}>
+        <Text>Esta página não existe ou está indisponível</Text>
+        <Link href="/" style={styles.link}>
+          <Text>Volte para a tela inicial</Text>
+        </Link>
+      </View>
+    </>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  },
+  link: {
+    marginTop: 15,
+    padding: 15,
+    backgroundColor: colors.blue[500],
+    borderRadius: 5,
+    color: colors.gray[50],
+    fontWeight: "bold",
+  },
+});
