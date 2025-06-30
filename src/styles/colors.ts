@@ -3,53 +3,43 @@
 // e tons de azul para elementos primários e de destaque.
 
 export const colors = {
-  // Paleta de cinzas, variando de claro a escuro para texto, fundos e bordas.
-  gray: {
-    50: "#F8F8F8", // Um cinza muito claro, quase branco, para fundos suaves.
-    100: "#EAEAEA", // Cinza claro para fundos e divisores.
-    200: "#D4D4D8", // Um cinza um pouco mais escuro para elementos secundários.
-    300: "#A1A1AA", // Cinza médio, bom para textos secundários ou placeholders.
-    400: "#71717A", // Cinza escuro, próximo ao tom do texto na logo.
-    500: "#52525B", // Um cinza mais escuro.
-    600: "#3F3F46", // Cinza bem escuro, quase preto.
-    700: "#27272A", // Tom escuro para texto principal.
-    800: "#18181B", // Quase preto para textos importantes.
-    900: "#09090B", // Preto para contrastes máximos.
-  },
-
-  // Paleta de azuis, inspirada na cor do ícone de clipe da logo "Linked".
+  // A modern, vibrant blue for primary actions and highlights.
   blue: {
-    100: "#E0F2F7", // Um azul muito claro, para fundos sutis ou estados de hover.
-    200: "#B3E0EE", // Azul claro para elementos secundários.
-    300: "#85CEE6", // Um azul vibrante, mas mais suave que o principal.
-    400: "#58BCE0", // Azul médio.
-    500: "#2BAAD8", // O azul primário, diretamente da logo do clipe.
-    600: "#228CB0", // Um azul mais escuro, para estados de pressionar ou bordas.
-    700: "#196C88", // Azul escuro para textos de destaque ou ícones.
-    800: "#104B60", // Azul muito escuro.
-    900: "#072A38", // Azul quase preto, para contrastes profundos.
+    100: "#EBF8FF", // Lightest blue for backgrounds
+    300: "#90CDF4", // Light blue for secondary elements
+    500: "#4299E1", // Primary blue, vibrant and accessible
+    700: "#2B6CB0", // Darker blue for pressed states or important text
+    900: "#2A4365", // Deepest blue
   },
 
-  // Cores adicionais, caso precise de um verde de destaque como no exemplo original,
-  // ou outras cores para feedback (sucesso, erro, aviso).
-  green: {
-    300: "#2DD4BF", // Um verde vibrante (exemplo mantido do seu modelo)
-    900: "#042F2E", // Um verde escuro (exemplo mantido do seu modelo)
+  // A neutral gray palette for text, backgrounds, and borders.
+  gray: {
+    50: "#F7FAFC",  // Almost white, for app background
+    100: "#EDF2F7", // Light gray for cards, inputs
+    200: "#E2E8F0", // Light borders
+    300: "#CBD5E0", // Medium gray for borders and dividers
+    400: "#A0AEC0", // Lighter text, placeholders
+    500: "#718096", // Main body text
+    600: "#4A5568", // Headings and important text
+    700: "#2D3748", // Darker text
+    800: "#1A202C", // Almost black
+    900: "#171923", // Deepest black
   },
 
-  // Cores de feedback (opcional, mas útil para aplicativos)
+  // Accent colors for user feedback.
   feedback: {
-    success: "#34D399", // Verde para sucesso
-    warning: "#FBBF24", // Amarelo para aviso
-    error: "#EF4444", // Vermelho para erro
+    success: "#48BB78", // Green
+    warning: "#F6E05E", // Yellow
+    error: "#F56565",   // Red
+  },
+  
+  yellow: {
+    500: "#FFC700", // For the star icon
   },
 
-  // Cores básicas (opcional, mas útil para reusar branco e preto puros)
+  // Basic colors
   basic: {
     white: "#FFFFFF",
-    black: "#000000",
-  },
-  yellow: {
-    500: "#FFC700",
+    black: "#1A202C",
   },
 };

@@ -1,21 +1,22 @@
+import { Button } from "@/components/button";
+import { Folder } from "@/components/folder";
+import { Input } from "@/components/input";
+import { folderStorage } from "@/storage/folder_storage";
+import { LinkStorage, linkStorage } from "@/storage/link_storage";
+import { colors } from "@/styles/colors";
+import { MaterialIcons } from "@expo/vector-icons";
+import { router, useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
   Alert,
   FlatList,
   Modal,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 import { styles } from "./styles";
-import { colors } from "@/styles/colors";
-import { router, useLocalSearchParams } from "expo-router";
-import { Input } from "@/components/input";
-import { Button } from "@/components/button";
-import { useEffect, useState } from "react";
-import { LinkStorage, linkStorage } from "@/storage/link_storage";
-import { folderStorage } from "@/storage/folder_storage";
-import { Folder } from "@/components/folder";
 
 export default function Add() {
   const [name, setName] = useState("");
@@ -45,7 +46,10 @@ export default function Add() {
       const folderItems = allFolders
         .filter((folderPath) => {
           if (folderPath === currentModalPath) return false;
-          const parentPath = folderPath.slice(0, folderPath.lastIndexOf("/", folderPath.length - 2) + 1);
+          const parentPath = folderPath.slice(
+            0,
+            folderPath.lastIndexOf("/", folderPath.length - 2) + 1
+          );
           return parentPath === currentModalPath;
         })
         .map((folderPath) => {
@@ -56,8 +60,14 @@ export default function Add() {
       if (currentModalPath !== "/") {
         const pathSegments = currentModalPath.split("/").filter(Boolean);
         const parentPath =
-          "/" + pathSegments.slice(0, -1).join("/") + (pathSegments.length > 1 ? "/" : "");
-        folderItems.unshift({ type: "back", name: ".. Voltar", path: parentPath });
+          "/" +
+          pathSegments.slice(0, -1).join("/") +
+          (pathSegments.length > 1 ? "/" : "");
+        folderItems.unshift({
+          type: "back",
+          name: ".. Voltar",
+          path: parentPath,
+        });
       }
 
       setFolderModalItems(folderItems);
@@ -81,10 +91,13 @@ export default function Add() {
     try {
       if (!name.trim()) return Alert.alert("Erro", "Digite o nome do link.");
       if (!url.trim()) return Alert.alert("Erro", "Digite a URL.");
-      if (!url.trim().match(/^(https?):\/\//)) return Alert.alert("Erro", "Digite uma URL válida.");
-      if (!path.trim().startsWith("/")) return Alert.alert("Erro", "O caminho da pasta é inválido.");
+      if (!url.trim().match(/^(https?):\/\//))
+        return Alert.alert("Erro", "Digite uma URL válida.");
+      if (!path.trim().startsWith("/"))
+        return Alert.alert("Erro", "O caminho da pasta é inválido.");
 
-      const normalizedPath = path.trim() === "" || path.trim() === "/" ? "/" : path.trim();
+      const normalizedPath =
+        path.trim() === "" || path.trim() === "/" ? "/" : path.trim();
 
       const linkData: LinkStorage = {
         id: editingLink ? editingLink.id : new Date().getTime().toString(),
@@ -115,21 +128,41 @@ export default function Add() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <MaterialIcons name="arrow-back-ios" size={20} color={colors.gray[400]} />
+          <MaterialIcons
+            name="arrow-back-ios"
+            size={20}
+            color={colors.gray[400]}
+          />
         </TouchableOpacity>
-        <Text style={styles.title}>{editingLink ? "Editar Link" : "Adicionar Link"}</Text>
+        <Text style={styles.title}>
+          {editingLink ? "Editar Link" : "Adicionar Link"}
+        </Text>
       </View>
 
       <View style={styles.form}>
         <Input placeholder="Nome do link" value={name} onChangeText={setName} />
-        <Input placeholder="URL" value={url} onChangeText={setUrl} autoCapitalize="none" />
-        
-        <TouchableOpacity style={styles.pathSelector} onPress={handleOpenFolderModal}>
-          <Text style={styles.pathSelectorText}>Pasta: {path === "/" ? "Principal" : path}</Text>
-          <MaterialIcons name="folder-open" size={20} color={colors.gray[400]} />
+        <Input
+          placeholder="URL"
+          value={url}
+          onChangeText={setUrl}
+          autoCapitalize="none"
+        />
+
+        <TouchableOpacity
+          style={styles.pathSelector}
+          onPress={handleOpenFolderModal}
+        >
+          <Text style={styles.pathSelectorText}>
+            Pasta: {path === "/" ? "Principal" : path}
+          </Text>
+          <MaterialIcons
+            name="folder-open"
+            size={20}
+            color={colors.gray[400]}
+          />
         </TouchableOpacity>
       </View>
 
@@ -152,23 +185,34 @@ export default function Add() {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Selecione a Pasta</Text>
-            <Text style={styles.modalPath}>Destino: {folderModalPath === "/" ? "Principal" : folderModalPath}</Text>
+            <Text style={styles.modalPath}>
+              Destino: {folderModalPath === "/" ? "Principal" : folderModalPath}
+            </Text>
             <View style={styles.folderListContainer}>
               <FlatList
                 data={folderModalItems}
                 keyExtractor={(item) => item.path}
                 renderItem={({ item }) => (
-                  <Folder name={item.name} onPress={() => loadFolderModalItems(item.path)} />
+                  <Folder
+                    name={item.name}
+                    onPress={() => loadFolderModalItems(item.path)}
+                  />
                 )}
               />
             </View>
-            <Button title="Selecionar esta pasta" onPress={handleSelectFolder} />
-            <TouchableOpacity style={styles.cancelButton} onPress={() => setShowFolderModal(false)}>
+            <Button
+              title="Selecionar esta pasta"
+              onPress={handleSelectFolder}
+            />
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => setShowFolderModal(false)}
+            >
               <Text style={styles.cancelButtonText}>Cancelar</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }

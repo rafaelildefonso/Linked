@@ -269,50 +269,82 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
 
-      <FlatList
-        data={items}
-        keyExtractor={(item, index) => item.id || `${item.path}-${index}`}
-        renderItem={({ item }) => {
-          if (item.type === 'link') {
-            return (
-              <Link
-                name={item.name}
-                url={item.url}
-                faviconUrl={`https://www.google.com/s2/favicons?sz=64&domain_url=${item.url}`}
-                onDetails={() => handleDetails(item)}
-              />
-            );
-          }
-
-          if (item.type === 'back' || item.type === 'create-folder') {
-            return (
+      {!items.some(item => item.type === 'folder' || item.type === 'link') ? (
+        <>
+          {selectedTab === 'Pastas' && (
+            <View style={{ paddingHorizontal: 24, paddingVertical: 16, alignItems: 'center' }}>
               <Option
-                icon={item.type === 'back' ? 'arrow-back' : 'create-new-folder'}
-                name={item.name}
+                icon="create-new-folder"
+                name="Criar nova pasta"
                 onPress={() => {
-                  if (item.type === 'back') {
-                    handlePathChange(item.path);
-                  } else {
-                    setNewFolderName('');
-                    setShowCreateFolderModal(true);
-                  }
+                  setNewFolderName('');
+                  setShowCreateFolderModal(true);
                 }}
               />
-            );
-          }
-
-          return (
-            <Folder
-              name={item.name}
-              onPress={() => handlePathChange(item.path)}
-              onLongPress={() => handleFolderLongPress(item as { name: string; path: string })}
+            </View>
+          )}
+          <View style={styles.emptyStateContainer}>
+            <Image 
+              source={require('@/assets/pasta.png')} 
+              style={styles.emptyStateImage}
+              resizeMode="contain"
             />
-          );
-        }}
-        style={styles.links}
-        contentContainerStyle={styles.linksContent}
-        showsVerticalScrollIndicator={false}
-      />
+            <Text style={styles.emptyStateText}>
+              {selectedTab === 'Inicial' 
+                ? 'Nenhum link encontrado. Adicione um novo link para começar!'
+                : selectedTab === 'Importante'
+                ? 'Nenhum link marcado como importante. Toque na estrela para adicionar aos favoritos.'
+                : 'Nenhuma pasta encontrada. Crie uma nova pasta para organizar seus links.'}
+            </Text>
+          </View>
+        </>
+
+      ) : (
+        <FlatList
+          data={items}
+          keyExtractor={(item, index) => item.id || `${item.path}-${index}`}
+          renderItem={({ item }) => {
+            if (item.type === 'link') {
+              return (
+                <Link
+                  name={item.name}
+                  url={item.url}
+                  faviconUrl={`https://www.google.com/s2/favicons?sz=64&domain_url=${item.url}`}
+                  onDetails={() => handleDetails(item)}
+                />
+              );
+            }
+
+            if (item.type === 'back' || item.type === 'create-folder') {
+              return (
+                <Option
+                  icon={item.type === 'back' ? 'arrow-back' : 'create-new-folder'}
+                  name={item.name}
+                  onPress={() => {
+                    if (item.type === 'back') {
+                      handlePathChange(item.path);
+                    } else {
+                      setNewFolderName('');
+                      setShowCreateFolderModal(true);
+                    }
+                  }}
+                />
+              );
+            }
+
+            return (
+              <Folder
+                name={item.name}
+                onPress={() => handlePathChange(item.path)}
+                onLongPress={() => handleFolderLongPress(item as { name: string; path: string })}
+              />
+            );
+          }}
+          style={styles.links}
+          contentContainerStyle={styles.linksContent}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
 
       {/* Link Details Modal */}
       <Modal transparent visible={showModal} animationType="slide">
